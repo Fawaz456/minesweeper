@@ -57,7 +57,7 @@ const HomePresentation = (props) => {
             </Typography>
             <br />
             <Typography variant="caption" className={"textstyle"}>
-              *Mines cannot be greater than rows * columns.
+              *Mines to be less than rows * columns and greater than 4.
             </Typography>
           </div>
         ) : null}

@@ -9,8 +9,8 @@ const HomeContainer = (props) => {
   const startGame = () => {
     if (difficulty === "Custom") {
       console.log("mines", typeof mines);
-      if (rows >= 5 && columns >= 5 && +mines < rows * columns) {
-        props.startGame({ difficulty, rows, columns, mines: +mines });
+      if (rows >= 5 && columns >= 5 && +mines < rows * columns && +mines>4) {
+        props.startGame({ difficulty, rows:+rows, columns:+columns, mines: +mines });
       } else {
         alert("Inproper input");
       }

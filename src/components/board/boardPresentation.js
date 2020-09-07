@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import "./board.css";
 import { Typography, Dialog, Button, Container } from "@material-ui/core";
 import HomeIcon from "@material-ui/icons/Home";
 import ReplayIcon from "@material-ui/icons/Replay";
 import FitnessCenterIcon from "@material-ui/icons/FitnessCenter";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
+
 const BoardPresentation = (props) => {
+  const fromTime = new Date(0, 0, 0, 0, 10, 0, 0);
   const body = (
     <div className={"simpleDialog"}>
       {props.won ? (
@@ -38,6 +40,7 @@ const BoardPresentation = (props) => {
         <div>
           <Typography variant="h5">Minesweeper</Typography>
           <Typography>Difficulty:{props.gameDifficulty}</Typography>
+
           <Typography>Score : {props.score}</Typography>
         </div>
         {props.array?.map((item, index) => {

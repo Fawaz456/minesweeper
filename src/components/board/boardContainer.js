@@ -46,13 +46,15 @@ const BoardContainer = (props) => {
       }
     }
     setArray(tempArray);
+    console.log(tempArray);
   }, [gameRestart]);
   const restartGame = () => {
     setGameRestart(!gameRestart);
     setMineStepped(false);
   };
-  const clicked = (i, j) => {
+  const clicked = async (i, j) => {
     const tempArray = [...array];
+    // console.log(tempArray);
     if (tempArray[i][j].clicked) {
       return;
     } else if (tempArray[i][j].isMine) {
@@ -80,36 +82,9 @@ const BoardContainer = (props) => {
           tempArray[i][j].value += 1;
         } else {
           if (!tempArray[i - 1][j].clicked) {
-            tempArray[i - 1][j].clicked = true;
-            props.gameDifficulty === "Easy" || props.gameDifficulty === "Custom"
-              ? (scre = scre + 1)
-              : props.gameDifficulty === "Medium"
-              ? (scre = scre + 2)
-              : (scre = scre + 3);
-          }
-        }
-      }
-      if (i + 1 <= tempArray.length - 1) {
-        if (tempArray[i + 1][j].isMine) {
-          tempArray[i][j].value += 1;
-        } else {
-          if (!tempArray[i + 1][j].clicked) {
-            tempArray[i + 1][j].clicked = true;
-            props.gameDifficulty === "Easy" || props.gameDifficulty === "Custom"
-              ? (scre = scre + 1)
-              : props.gameDifficulty === "Medium"
-              ? (scre = scre + 2)
-              : (scre = scre + 3);
-          }
-        }
-      }
-      if (j - 1 >= 0) {
-        if (i - 1 >= 0) {
-          if (tempArray[i - 1][j - 1].isMine) {
-            tempArray[i][j].value += 1;
-          } else {
-            if (!tempArray[i - 1][j - 1].clicked) {
-              tempArray[i - 1][j - 1].clicked = true;
+            const bool = await getBool(tempArray, i - 1, j);
+            if (!bool) {
+              tempArray[i - 1][j].clicked = true;
               props.gameDifficulty === "Easy" ||
               props.gameDifficulty === "Custom"
                 ? (scre = scre + 1)
@@ -119,16 +94,58 @@ const BoardContainer = (props) => {
             }
           }
         }
+      }
+      if (i + 1 <= tempArray.length - 1) {
+        if (tempArray[i + 1][j].isMine) {
+          tempArray[i][j].value += 1;
+        } else {
+          if (!tempArray[i + 1][j].clicked) {
+            const bool = await getBool(tempArray, i + 1, j);
+            if (!bool) {
+              tempArray[i + 1][j].clicked = true;
+              props.gameDifficulty === "Easy" ||
+              props.gameDifficulty === "Custom"
+                ? (scre = scre + 1)
+                : props.gameDifficulty === "Medium"
+                ? (scre = scre + 2)
+                : (scre = scre + 3);
+            }
+          }
+        }
+      }
+      if (j - 1 >= 0) {
+        if (i - 1 >= 0) {
+          if (tempArray[i - 1][j - 1].isMine) {
+            tempArray[i][j].value += 1;
+          } else {
+            if (!tempArray[i - 1][j - 1].clicked) {
+              const bool = await getBool(tempArray, i - 1, j - 1);
+              if (!bool) {
+                tempArray[i - 1][j - 1].clicked = true;
+                props.gameDifficulty === "Easy" ||
+                props.gameDifficulty === "Custom"
+                  ? (scre = scre + 1)
+                  : props.gameDifficulty === "Medium"
+                  ? (scre = scre + 2)
+                  : (scre = scre + 3);
+              }
+            }
+          }
+        }
         if (tempArray[i][j - 1].isMine) {
           tempArray[i][j].value += 1;
         } else {
           if (!tempArray[i][j - 1].clicked) {
-            tempArray[i][j - 1].clicked = true;
-            props.gameDifficulty === "Easy" || props.gameDifficulty === "Custom"
-              ? (scre = scre + 1)
-              : props.gameDifficulty === "Medium"
-              ? (scre = scre + 2)
-              : (scre = scre + 3);
+            const bool = await getBool(tempArray, i, j - 1);
+            if (!bool) {
+              tempArray[i][j - 1].clicked = true;
+              props.gameDifficulty === "Easy" ||
+              props.gameDifficulty === "Custom"
+                ? (scre = scre + 1)
+                : props.gameDifficulty === "Medium"
+                ? (scre = scre + 2)
+                : (scre = scre + 3);
+            }
           }
         }
         if (i + 1 <= tempArray.length - 1) {
@@ -136,13 +153,16 @@ const BoardContainer = (props) => {
             tempArray[i][j].value += 1;
           } else {
             if (!tempArray[i + 1][j - 1].clicked) {
-              tempArray[i + 1][j - 1].clicked = true;
-              props.gameDifficulty === "Easy" ||
-              props.gameDifficulty === "Custom"
-                ? (scre = scre + 1)
-                : props.gameDifficulty === "Medium"
-                ? (scre = scre + 2)
-                : (scre = scre + 3);
+              const bool = await getBool(tempArray, i + 1, j - 1);
+              if (!bool) {
+                tempArray[i + 1][j - 1].clicked = true;
+                props.gameDifficulty === "Easy" ||
+                props.gameDifficulty === "Custom"
+                  ? (scre = scre + 1)
+                  : props.gameDifficulty === "Medium"
+                  ? (scre = scre + 2)
+                  : (scre = scre + 3);
+              }
             }
           }
         }
@@ -154,7 +174,26 @@ const BoardContainer = (props) => {
             tempArray[i][j].value++;
           } else {
             if (!tempArray[i - 1][j + 1].clicked) {
-              tempArray[i - 1][j + 1].clicked = true;
+              const bool = await getBool(tempArray, i - 1, j + 1);
+              if (!bool) {
+                tempArray[i - 1][j + 1].clicked = true;
+                props.gameDifficulty === "Easy" ||
+                props.gameDifficulty === "Custom"
+                  ? (scre = scre + 1)
+                  : props.gameDifficulty === "Medium"
+                  ? (scre = scre + 2)
+                  : (scre = scre + 3);
+              }
+            }
+          }
+        }
+        if (tempArray[i][j + 1].isMine) {
+          tempArray[i][j].value++;
+        } else {
+          if (!tempArray[i][j + 1].clicked) {
+            const bool = await getBool(tempArray, i, j + 1);
+            if (!bool) {
+              tempArray[i][j + 1].clicked = true;
               props.gameDifficulty === "Easy" ||
               props.gameDifficulty === "Custom"
                 ? (scre = scre + 1)
@@ -164,30 +203,21 @@ const BoardContainer = (props) => {
             }
           }
         }
-        if (tempArray[i][j + 1].isMine) {
-          tempArray[i][j].value++;
-        } else {
-          if (!tempArray[i][j + 1].clicked) {
-            tempArray[i][j + 1].clicked = true;
-            props.gameDifficulty === "Easy" || props.gameDifficulty === "Custom"
-              ? (scre = scre + 1)
-              : props.gameDifficulty === "Medium"
-              ? (scre = scre + 2)
-              : (scre = scre + 3);
-          }
-        }
         if (i + 1 <= tempArray.length - 1) {
           if (tempArray[i + 1][j + 1].isMine) {
             tempArray[i][j].value++;
           } else {
             if (!tempArray[i + 1][j + 1].clicked) {
-              tempArray[i + 1][j + 1].clicked = true;
-              props.gameDifficulty === "Easy" ||
-              props.gameDifficulty === "Custom"
-                ? (scre = scre + 1)
-                : props.gameDifficulty === "Medium"
-                ? (scre = scre + 2)
-                : (scre = scre + 3);
+              const bool = await getBool(tempArray, i + 1, j + 1);
+              if (!bool) {
+                tempArray[i + 1][j + 1].clicked = true;
+                props.gameDifficulty === "Easy" ||
+                props.gameDifficulty === "Custom"
+                  ? (scre = scre + 1)
+                  : props.gameDifficulty === "Medium"
+                  ? (scre = scre + 2)
+                  : (scre = scre + 3);
+              }
             }
           }
         }
@@ -208,6 +238,50 @@ const BoardContainer = (props) => {
       //   }
     }
     setArray(tempArray);
+  };
+  const getBool = (tempArray, i, j) => {
+    if (i - 1 >= 0) {
+      if (tempArray[i - 1][j].isMine) {
+        return true;
+      }
+    }
+    if (i + 1 <= tempArray.length - 1) {
+      if (tempArray[i + 1][j].isMine) {
+        return true;
+      }
+    }
+    if (j - 1 >= 0) {
+      if (i - 1 >= 0) {
+        if (tempArray[i - 1][j - 1].isMine) {
+          return true;
+        }
+      }
+      if (tempArray[i][j - 1].isMine) {
+        return true;
+      }
+      if (i + 1 <= tempArray.length - 1) {
+        if (tempArray[i + 1][j - 1].isMine) {
+          return true;
+        }
+      }
+    }
+
+    if (j + 1 <= tempArray[i].length - 1) {
+      if (i - 1 >= 0) {
+        if (tempArray[i - 1][j + 1].isMine) {
+          return true;
+        }
+      }
+      if (tempArray[i][j + 1].isMine) {
+        return true;
+      }
+      if (i + 1 <= tempArray.length - 1) {
+        if (tempArray[i + 1][j + 1].isMine) {
+          return true;
+        }
+      }
+    }
+    return false;
   };
   return (
     <BoardPresentation
