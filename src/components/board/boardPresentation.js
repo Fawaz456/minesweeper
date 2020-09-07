@@ -40,6 +40,7 @@ const BoardPresentation = (props) => {
         <div>
           <Typography variant="h5">Minesweeper</Typography>
           <Typography>Difficulty:{props.gameDifficulty}</Typography>
+          <Typography>Flags:{props.flag}</Typography>
 
           <Typography>Score : {props.score}</Typography>
         </div>
@@ -52,8 +53,13 @@ const BoardPresentation = (props) => {
                     key={id}
                     className={!i.clicked ? "notClicked" : "value"}
                     onClick={() => props.clicked(index, id)}
+                    onContextMenu={(e) => props.rightClicked(e, index, id)}
                   >
-                    {i.clicked ? (
+                    {i.isFlag && i.clicked && i.isMine ? (
+                      <span className={"mine"}>{".F"}</span>
+                    ) : i.isFlag ? (
+                      "F"
+                    ) : i.clicked ? (
                       i.isMine ? (
                         <span className={"mine"}>{"."}</span>
                       ) : i.value > 0 ? (
@@ -78,6 +84,10 @@ const BoardPresentation = (props) => {
             <ReplayIcon />
           </Button>
         ) : null}
+        <br/>
+        <Typography variant="caption" className={"textstyle"}>
+              *Flags can be placed and removed by right clicking
+            </Typography>
       </Container>
     </React.Fragment>
   );

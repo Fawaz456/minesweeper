@@ -6,13 +6,14 @@ const BoardContainer = (props) => {
   const [gameRestart, setGameRestart] = useState(false);
   const [won, setWon] = useState(false);
   const [score, setScore] = useState(null);
+  const [flag, setFlag] = useState(null);
   useEffect(() => {
     setScore(0);
     let tempArray;
     if (props.gameDifficulty !== "Custom") {
       tempArray = Array.from({ length: 10 }, () =>
         Array.from({ length: 10 }, () => {
-          return { clicked: false, value: 0, isMine: false };
+          return { clicked: false, value: 0, isMine: false, isFlag: false };
         })
       );
     } else {
@@ -30,6 +31,7 @@ const BoardContainer = (props) => {
       : props.gameDifficulty === "Hard"
       ? (x = 20)
       : (x = props.mines);
+    setFlag(x);
     while (x > 0) {
       let i, j;
       if (props.gameDifficulty !== "Custom") {
@@ -55,7 +57,7 @@ const BoardContainer = (props) => {
   const clicked = async (i, j) => {
     const tempArray = [...array];
     // console.log(tempArray);
-    if (tempArray[i][j].clicked) {
+    if (tempArray[i][j].clicked || tempArray[i][j].isFlag) {
       return;
     } else if (tempArray[i][j].isMine) {
       tempArray[i][j].clicked = true;
@@ -83,7 +85,7 @@ const BoardContainer = (props) => {
         } else {
           if (!tempArray[i - 1][j].clicked) {
             const bool = await getBool(tempArray, i - 1, j);
-            if (!bool) {
+            if (!bool && !tempArray[i - 1][j].isFlag) {
               tempArray[i - 1][j].clicked = true;
               props.gameDifficulty === "Easy" ||
               props.gameDifficulty === "Custom"
@@ -101,7 +103,7 @@ const BoardContainer = (props) => {
         } else {
           if (!tempArray[i + 1][j].clicked) {
             const bool = await getBool(tempArray, i + 1, j);
-            if (!bool) {
+            if (!bool && !tempArray[i + 1][j].isFlag) {
               tempArray[i + 1][j].clicked = true;
               props.gameDifficulty === "Easy" ||
               props.gameDifficulty === "Custom"
@@ -120,7 +122,7 @@ const BoardContainer = (props) => {
           } else {
             if (!tempArray[i - 1][j - 1].clicked) {
               const bool = await getBool(tempArray, i - 1, j - 1);
-              if (!bool) {
+              if (!bool && !tempArray[i - 1][j - 1].isFlag) {
                 tempArray[i - 1][j - 1].clicked = true;
                 props.gameDifficulty === "Easy" ||
                 props.gameDifficulty === "Custom"
@@ -137,7 +139,7 @@ const BoardContainer = (props) => {
         } else {
           if (!tempArray[i][j - 1].clicked) {
             const bool = await getBool(tempArray, i, j - 1);
-            if (!bool) {
+            if (!bool && !tempArray[i][j - 1].isFlag) {
               tempArray[i][j - 1].clicked = true;
               props.gameDifficulty === "Easy" ||
               props.gameDifficulty === "Custom"
@@ -154,7 +156,7 @@ const BoardContainer = (props) => {
           } else {
             if (!tempArray[i + 1][j - 1].clicked) {
               const bool = await getBool(tempArray, i + 1, j - 1);
-              if (!bool) {
+              if (!bool && !tempArray[i + 1][j - 1].isFlag) {
                 tempArray[i + 1][j - 1].clicked = true;
                 props.gameDifficulty === "Easy" ||
                 props.gameDifficulty === "Custom"
@@ -175,7 +177,7 @@ const BoardContainer = (props) => {
           } else {
             if (!tempArray[i - 1][j + 1].clicked) {
               const bool = await getBool(tempArray, i - 1, j + 1);
-              if (!bool) {
+              if (!bool && !tempArray[i - 1][j + 1].isFlag) {
                 tempArray[i - 1][j + 1].clicked = true;
                 props.gameDifficulty === "Easy" ||
                 props.gameDifficulty === "Custom"
@@ -192,7 +194,7 @@ const BoardContainer = (props) => {
         } else {
           if (!tempArray[i][j + 1].clicked) {
             const bool = await getBool(tempArray, i, j + 1);
-            if (!bool) {
+            if (!bool && !tempArray[i][j + 1].isFlag) {
               tempArray[i][j + 1].clicked = true;
               props.gameDifficulty === "Easy" ||
               props.gameDifficulty === "Custom"
@@ -209,7 +211,7 @@ const BoardContainer = (props) => {
           } else {
             if (!tempArray[i + 1][j + 1].clicked) {
               const bool = await getBool(tempArray, i + 1, j + 1);
-              if (!bool) {
+              if (!bool && !tempArray[i + 1][j + 1].isFlag) {
                 tempArray[i + 1][j + 1].clicked = true;
                 props.gameDifficulty === "Easy" ||
                 props.gameDifficulty === "Custom"
@@ -283,6 +285,23 @@ const BoardContainer = (props) => {
     }
     return false;
   };
+  const rightClicked = (e, i, j) => {
+    e.preventDefault();
+    if (flag > 0) {
+      const tempArray = [...array];
+      if (tempArray[i][j].isFlag) {
+        tempArray[i][j].isFlag = false;
+        setFlag(flag + 1);
+      } else {
+        tempArray[i][j].isFlag = true;
+        setFlag(flag - 1);
+      }
+
+      setArray(tempArray);
+    } else {
+      alert("all flags used");
+    }
+  };
   return (
     <BoardPresentation
       mineStepped={mineStepped}
@@ -293,6 +312,8 @@ const BoardContainer = (props) => {
       won={won}
       score={score}
       gameDifficulty={props.gameDifficulty}
+      rightClicked={rightClicked}
+      flag={flag}
     />
   );
 };
