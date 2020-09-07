@@ -290,19 +290,19 @@ const BoardContainer = (props) => {
     e.preventDefault();
     const tempArray = [...array];
     if (!tempArray[i][j].clicked) {
-      if (flag > 0) {
-        if (tempArray[i][j].isFlag) {
-          tempArray[i][j].isFlag = false;
-          setFlag(flag + 1);
-        } else {
+      if (tempArray[i][j].isFlag) {
+        tempArray[i][j].isFlag = false;
+        setFlag(flag + 1);
+      } else {
+        if (flag > 0) {
           tempArray[i][j].isFlag = true;
           setFlag(flag - 1);
+        } else {
+          setSnackOpen(true);
         }
-
-        setArray(tempArray);
-      } else {
-        setSnackOpen(true);
       }
+
+      setArray(tempArray);
     }
   };
   return (
