@@ -7,6 +7,7 @@ const BoardContainer = (props) => {
   const [won, setWon] = useState(false);
   const [score, setScore] = useState(null);
   const [flag, setFlag] = useState(null);
+  const [snackOpen, setSnackOpen] = useState(false);
   useEffect(() => {
     setScore(0);
     let tempArray;
@@ -300,7 +301,7 @@ const BoardContainer = (props) => {
 
         setArray(tempArray);
       } else {
-        alert("all flags used");
+        setSnackOpen(true);
       }
     }
   };
@@ -316,6 +317,8 @@ const BoardContainer = (props) => {
       gameDifficulty={props.gameDifficulty}
       rightClicked={rightClicked}
       flag={flag}
+      snackOpen={snackOpen}
+      handleCloseAlert={() => setSnackOpen(false)}
     />
   );
 };

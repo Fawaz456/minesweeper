@@ -1,13 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 import "./board.css";
 import { Typography, Dialog, Button, Container } from "@material-ui/core";
 import HomeIcon from "@material-ui/icons/Home";
 import ReplayIcon from "@material-ui/icons/Replay";
 import FitnessCenterIcon from "@material-ui/icons/FitnessCenter";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
-
+import Snackbar from "../snackBar/snackBar";
 const BoardPresentation = (props) => {
-  const fromTime = new Date(0, 0, 0, 0, 10, 0, 0);
   const body = (
     <div className={"simpleDialog"}>
       {props.won ? (
@@ -37,6 +36,11 @@ const BoardPresentation = (props) => {
     <React.Fragment>
       <Dialog open={props.mineStepped}>{body}</Dialog>
       <Container className={"board"}>
+        <Snackbar
+          open={props.snackOpen}
+          msg={"All flags used!"}
+          handleCloseAlert={props.handleCloseAlert}
+        />
         <div>
           <Typography variant="h5">Minesweeper</Typography>
           <Typography>Difficulty:{props.gameDifficulty}</Typography>
@@ -84,10 +88,10 @@ const BoardPresentation = (props) => {
             <ReplayIcon />
           </Button>
         ) : null}
-        <br/>
+        <br />
         <Typography variant="caption" className={"textstyle"}>
-              *Flags can be placed and removed by right clicking
-            </Typography>
+          *Flags can be placed and removed by right clicking
+        </Typography>
       </Container>
     </React.Fragment>
   );

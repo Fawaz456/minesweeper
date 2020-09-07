@@ -8,10 +8,16 @@ import {
   Button,
   TextField,
 } from "@material-ui/core";
+import Snackbar from "../snackBar/snackBar";
 const HomePresentation = (props) => {
   return (
     <React.Fragment>
       <Container maxWidth="sm" className={"contnr"}>
+        <Snackbar
+          open={props.snackOpen}
+          msg={"Input incorrect...Please refer note below!"}
+          handleCloseAlert={props.handleCloseAlert}
+        />
         <Typography variant="h3">Welcome!</Typography>
         <div className={"contnr"}>
           <Typography>Select Difficulty</Typography>

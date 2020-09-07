@@ -6,13 +6,14 @@ const HomeContainer = (props) => {
   const [rows, setRows] = useState(5);
   const [columns, setColumns] = useState(5);
   const [mines, setMines] = useState(5);
+  const [snackOpen, setSnackOpen] = useState(false);
   const startGame = () => {
     if (difficulty === "Custom") {
       console.log("mines", typeof mines);
       if (rows >= 5 && columns >= 5 && +mines < rows * columns && +mines>4) {
         props.startGame({ difficulty, rows:+rows, columns:+columns, mines: +mines });
       } else {
-        alert("Inproper input");
+        setSnackOpen(true);
       }
     } else {
       props.startGame({ difficulty });
@@ -41,6 +42,8 @@ const HomeContainer = (props) => {
       setRows={(e) => setRows(e.target.value)}
       setColumns={(e) => setColumns(e.target.value)}
       setMines={(e) => setMines(e.target.value)}
+      snackOpen={snackOpen}
+      handleCloseAlert={() => setSnackOpen(false)}
     />
   );
 };
