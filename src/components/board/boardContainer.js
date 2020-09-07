@@ -287,19 +287,21 @@ const BoardContainer = (props) => {
   };
   const rightClicked = (e, i, j) => {
     e.preventDefault();
-    if (flag > 0) {
-      const tempArray = [...array];
-      if (tempArray[i][j].isFlag) {
-        tempArray[i][j].isFlag = false;
-        setFlag(flag + 1);
-      } else {
-        tempArray[i][j].isFlag = true;
-        setFlag(flag - 1);
-      }
+    const tempArray = [...array];
+    if (!tempArray[i][j].clicked) {
+      if (flag > 0) {
+        if (tempArray[i][j].isFlag) {
+          tempArray[i][j].isFlag = false;
+          setFlag(flag + 1);
+        } else {
+          tempArray[i][j].isFlag = true;
+          setFlag(flag - 1);
+        }
 
-      setArray(tempArray);
-    } else {
-      alert("all flags used");
+        setArray(tempArray);
+      } else {
+        alert("all flags used");
+      }
     }
   };
   return (
