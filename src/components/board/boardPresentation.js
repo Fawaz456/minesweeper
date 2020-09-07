@@ -1,6 +1,6 @@
 import React from "react";
 import "./board.css";
-import { Typography, Dialog, Button } from "@material-ui/core";
+import { Typography, Dialog, Button, Container } from "@material-ui/core";
 import HomeIcon from "@material-ui/icons/Home";
 import ReplayIcon from "@material-ui/icons/Replay";
 import FitnessCenterIcon from "@material-ui/icons/FitnessCenter";
@@ -34,7 +34,7 @@ const BoardPresentation = (props) => {
   return (
     <React.Fragment>
       <Dialog open={props.mineStepped}>{body}</Dialog>
-      <div className={"board"}>
+      <Container className={"board"}>
         <div>
           <Typography variant="h5">Minesweeper</Typography>
           <Typography>Difficulty:{props.gameDifficulty}</Typography>
@@ -75,7 +75,7 @@ const BoardPresentation = (props) => {
             <ReplayIcon />
           </Button>
         ) : null}
-      </div>
+      </Container>
     </React.Fragment>
   );
 };
