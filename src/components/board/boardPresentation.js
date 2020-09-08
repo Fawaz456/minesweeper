@@ -6,6 +6,8 @@ import ReplayIcon from "@material-ui/icons/Replay";
 import FitnessCenterIcon from "@material-ui/icons/FitnessCenter";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 import Snackbar from "../snackBar/snackBar";
+import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
+import FlagIcon from "@material-ui/icons/Flag";
 const BoardPresentation = (props) => {
   const body = (
     <div className={"simpleDialog"}>
@@ -60,12 +62,12 @@ const BoardPresentation = (props) => {
                     onContextMenu={(e) => props.rightClicked(e, index, id)}
                   >
                     {i.isFlag && i.clicked && i.isMine ? (
-                      <span className={"mine"}>{".F"}</span>
+                      <FlagIcon className={"mine"} />
                     ) : i.isFlag ? (
-                      "F"
+                      <FlagIcon />
                     ) : i.clicked ? (
                       i.isMine ? (
-                        <span className={"mine"}>{"."}</span>
+                        <FiberManualRecordIcon className={"mine"} />
                       ) : i.value > 0 ? (
                         i.value
                       ) : (
