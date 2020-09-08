@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import SnackBarPresentation from "./snackBarPresentation";
 const SnackBarContainer = (props) => {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false); //state to display the alert
   useEffect(() => {
-    setOpen(props.open);
+    setOpen(props.open); //To display alert
   });
   return (
     <SnackBarPresentation

@@ -3,26 +3,23 @@ import "./App.css";
 import Board from "../src/components/board/board";
 import Home from "../src/components/home/home";
 const App = () => {
-  const [gameStarted, setGameStarted] = useState(false);
-  const [gameDifficulty, setGameDifficulty] = useState("");
-  const [rows, setRows] = useState(null);
-  const [columns, setColumns] = useState(null);
-  const [mines, setMines] = useState(null);
+  const [gameStarted, setGameStarted] = useState(false); //state to display grid
+  const [gameDifficulty, setGameDifficulty] = useState(""); //state to pass difficulty to grid
+  const [rows, setRows] = useState(null); //state for custom board row
+  const [columns, setColumns] = useState(null); //state for custom board columns
+  const [mines, setMines] = useState(null); //state for custom mines
   const startGame = (obj) => {
-    console.log(obj);
-    if (obj.difficulty !== "Custom") {
-      setGameDifficulty(obj.difficulty);
-      setGameStarted(true);
-    } else {
-      setGameDifficulty(obj.difficulty);
-      setRows(obj.rows);
-      setColumns(obj.columns);
-      setMines(obj.mines);
-      setGameStarted(true);
+    setGameDifficulty(obj.difficulty); //Set the game difficulty recieved from home
+    if (obj.difficulty === "Custom") {
+      //if game difficulty is custom
+      setRows(obj.rows); //set the custom rows recieved from user
+      setColumns(obj.columns); //set the custom columns recieved from user
+      setMines(obj.mines); //set the custom mines recieved from user
     }
+    setGameStarted(true); //show the grid board
   };
   const backHome = () => {
-    setGameStarted(false);
+    setGameStarted(false); //hide the grid board and display landing view(home)
   };
   return (
     <React.Fragment>
