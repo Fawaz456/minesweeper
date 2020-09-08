@@ -9,7 +9,7 @@ const SnackBarPresentation = (props) => {
       open={props.open}
       autoHideDuration={3000}
       onClose={() => props.handleCloseAlert()}
-      anchorOrigin={{ horizontal: "top", vertical: "right" }}
+      anchorOrigin={{ horizontal: "center", vertical: "top" }}
     >
       <Alert
         className="fullWidth"

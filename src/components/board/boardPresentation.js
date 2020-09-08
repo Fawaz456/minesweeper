@@ -40,7 +40,7 @@ const BoardPresentation = (props) => {
       <Container className={"board"}>
         <Snackbar
           open={props.snackOpen}
-          msg={"All flags used!"}
+          msg={"All available flags have been used!"}
           handleCloseAlert={props.handleCloseAlert}
         />
         <div>
